@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 
 const employeesRoutes = require('./routes/employees.routes');
 const departmentsRoutes = require('./routes/departments.routes');
@@ -8,10 +8,10 @@ const productsRoutes = require('./routes/products.routes');
 
 async function startServer() {
   try {
-    const client = await mongoClient.connect('mongodb://127.0.0.1:27017');
+    mongoose.connect('mongodb://127.0.0.1:27017', { useNewUrlParser: true, useUnifiedTopology: true });
     console.log('Successfully connected to the database');
     const app = express();
-    const db = client.db('companyDB');
+    const db = mongoose.connection;
 
     app.use(cors());
     app.use(express.json());
